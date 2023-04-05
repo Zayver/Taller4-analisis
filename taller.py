@@ -1,6 +1,7 @@
 import sys
 from pprint import pprint
 from math import inf
+from functools import cmp_to_key
 
 class Item:
     def __init__(self, value, weight):
@@ -90,7 +91,37 @@ def g_backtrack(w, items):
         i-=1
 
     return M[len(items)-1][w-1], T
+
+def compare(a, b):
+    if a.value >= b.value and a.weight < b.weight:
+        return -1
+    elif a.value == b.value and a.weight > b.weight:
+        return 1
+    elif a.value == b.value and a.weight <= b.weight:
+        return -1
+    elif a.value < b.value:
+        return 1
+    else:
+        return 0
+    
+
+def greedy(items: list, w):
+    items = sorted(items, key=cmp_to_key(compare))
+    items = list(reversed(items))
+    furfill = False
+    R = []
+    i = 0
+    while not furfill and i < len(items):
+        if items[i].weight <= w:
+            R.append(items[i])
+            w-= items[i].weight
+            i+=1
+        else:
+            furfill = True
         
+        
+    return sum(item.value for item in R), R
+                
 def main():
     if (len(sys.argv) != 3):
         print("ERROR")
@@ -105,6 +136,7 @@ def main():
     print(g_memoized(len(items)-1, size-1, items, M))
     print(g_bottomup(size, items))
     print(g_backtrack(size, items))
+    print(greedy(items, size))
 
 
 
