@@ -20,7 +20,7 @@ La implementación de la solución se encuentra en python y en qbasic. Para el a
 ```sh
 $ python taller.py [filename] [max_weight]
 ```
-gu
+
 ### Para Qbasic
 
 ```sh
